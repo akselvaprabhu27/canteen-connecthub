@@ -30,6 +30,31 @@ const messageRoutes = require("./routes/messageRoutes");
 const paymentRequestRoutes = require("./routes/paymentRequestRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const fineRoutes = require("./routes/fineRoutes");
+// Temporary setup route to create superadmin on the cloud database
+app.get("/api/setup-superadmin", async (req, res) => {
+  try {
+    const User = require("./models/User");
+    let admin = await User.findOne({ email: 'superadmin@gmail.com' });
+    if (admin) {
+      admin.password = '123456';
+      admin.name = 'Superadmin';
+      admin.role = 'super_admin';
+      await admin.save();
+      return res.json({ message: "Superadmin updated successfully!" });
+    } else {
+      admin = new User({
+        name: 'Superadmin',
+        email: 'superadmin@gmail.com',
+        password: '123456',
+        role: 'super_admin'
+      });
+      await admin.save();
+      return res.json({ message: "Superadmin created successfully!" });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/organizations", orgRoutes);
