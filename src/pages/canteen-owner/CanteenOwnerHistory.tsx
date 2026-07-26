@@ -42,8 +42,34 @@ const CanteenOwnerHistory = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-foreground">Order History</h2>
-      <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
+      <h2 className="text-base sm:text-lg font-bold text-foreground">Order History</h2>
+      
+      {/* Mobile Card View */}
+      <div className="md:hidden space-y-3">
+        {loading ? (
+          <div className="p-8 text-center text-xs font-semibold text-muted-foreground animate-pulse">Loading...</div>
+        ) : orders.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center text-xs text-muted-foreground">No orders yet.</div>
+        ) : (
+          orders.map((o) => (
+            <div key={o._id} className="rounded-2xl border border-border bg-card p-4 shadow-sm flex items-center justify-between gap-3">
+              <div>
+                <span className="font-extrabold text-sm text-primary">{o.orderId}</span>
+                <p className="text-xs text-muted-foreground mt-0.5">{formatDate(o.createdAt)}</p>
+              </div>
+              <div className="text-right">
+                <p className="font-black text-sm text-foreground">₹{o.totalAmount}</p>
+                <span className={`inline-block mt-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold capitalize ${o.status === "completed" ? "bg-success/10 text-success" : o.status === "cancelled" ? "bg-destructive/10 text-destructive" : "bg-warning/10 text-warning"}`}>
+                  {o.status}
+                </span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden md:block overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/50">

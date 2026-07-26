@@ -120,22 +120,22 @@ const CanteenOwnerEarnings = () => {
         </div>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2">
-        <div className="bg-amber-500/5 border border-amber-500/20 rounded-3xl p-8 relative overflow-hidden group">
+      <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
+        <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl sm:rounded-3xl p-5 sm:p-8 relative overflow-hidden group">
           <div className="flex justify-between items-start relative z-10">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-500/70 mb-2">Pending Payout</p>
-              <h3 className="text-4xl font-black text-foreground">₹{data.pendingPayout.toLocaleString()}</h3>
+              <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-amber-500/70 mb-1 sm:mb-2">Pending Payout</p>
+              <h3 className="text-2xl sm:text-4xl font-black text-foreground">₹{data.pendingPayout.toLocaleString()}</h3>
             </div>
-            <div className="h-12 w-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-              <Wallet className="h-6 w-6" />
+            <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0">
+              <Wallet className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
           </div>
-          <div className="mt-8 relative z-10">
+          <div className="mt-6 sm:mt-8 relative z-10">
             <Button 
               onClick={handleRequestPayment}
               disabled={requesting || data.pendingPayout <= 0.99}
-              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-black rounded-xl h-12 shadow-xl shadow-amber-500/20 transition-all active:scale-95 disabled:opacity-30 disabled:grayscale"
+              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-black rounded-xl h-11 sm:h-12 text-xs sm:text-sm shadow-xl shadow-amber-500/20 transition-all active:scale-95 disabled:opacity-30 disabled:grayscale"
             >
               {requesting ? "Processing Request..." : "Request Instant Payout"} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -146,45 +146,45 @@ const CanteenOwnerEarnings = () => {
         <StatCard 
           title="Received Earnings" 
           value={`₹${data.receivedEarnings.toLocaleString()}`} 
-          icon={<CheckCircle2 className="h-6 w-6 text-emerald-500" />} 
-          className="bg-emerald-500/5 border-emerald-500/20 p-8"
+          icon={<CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-500" />} 
+          className="bg-emerald-500/5 border-emerald-500/20 p-5 sm:p-8 rounded-2xl sm:rounded-3xl"
         />
       </div>
 
-      <div className="rounded-3xl border border-border bg-card p-8 shadow-sm">
-        <div className="flex items-center justify-between mb-8">
-          <h3 className="text-lg font-black text-card-foreground flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-primary" /> Earnings History
+      <div className="rounded-2xl sm:rounded-3xl border border-border bg-card p-4 sm:p-8 shadow-sm">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <h3 className="text-base sm:text-lg font-black text-card-foreground flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-primary" /> Earnings History
           </h3>
-          <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Last 7 Days</span>
+          <span className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-widest">Last 7 Days</span>
         </div>
         
-        <div className="flex h-64 items-end gap-4 px-2">
+        <div className="flex h-48 sm:h-64 items-end gap-1.5 sm:gap-4 px-1 sm:px-2">
           {data.earningsPerDay.map((d, i) => (
-            <div key={i} className="flex flex-1 flex-col items-center gap-3 group">
-              <div className="relative w-full h-48 flex flex-col justify-end items-center">
+            <div key={i} className="flex flex-1 flex-col items-center gap-2 sm:gap-3 group">
+              <div className="relative w-full h-36 sm:h-48 flex flex-col justify-end items-center">
                 <div
-                  className="w-full rounded-2xl bg-primary/20 group-hover:bg-primary transition-all duration-500 relative overflow-hidden"
+                  className="w-full rounded-xl sm:rounded-2xl bg-primary/20 group-hover:bg-primary transition-all duration-500 relative overflow-hidden"
                   style={{ height: `${maxAmount > 0 ? (d.amount / maxAmount) * 100 : 0}%`, minHeight: "8px" }}
                   title={`₹${Math.round(d.amount)}`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
                 {d.amount > 0 && (
-                  <span className="absolute -top-8 text-[10px] font-black text-primary opacity-0 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1">
+                  <span className="absolute -top-7 text-[9px] sm:text-[10px] font-black text-primary opacity-0 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1">
                     ₹{Math.round(d.amount)}
                   </span>
                 )}
               </div>
-              <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">{d.day}</span>
+              <span className="text-[9px] sm:text-[10px] font-black text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">{d.day}</span>
             </div>
           ))}
         </div>
         
         {data.earningsPerDay.every(d => d.amount === 0) && (
-          <div className="py-20 text-center flex flex-col items-center gap-2">
-            <TrendingUp className="h-8 w-8 text-muted-foreground/20" />
-            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">No earnings data yet</p>
+          <div className="py-12 sm:py-20 text-center flex flex-col items-center gap-2">
+            <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground/20" />
+            <p className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-widest">No earnings data yet</p>
           </div>
         )}
       </div>

@@ -53,20 +53,20 @@ const CanteenOwnerLayout = () => {
   }, []);
 
   const coolTitle = (
-    <div className="flex items-center gap-4 py-1">
-      <div className="relative group">
+    <div className="flex items-center gap-2.5 sm:gap-4 py-1 min-w-0">
+      <div className="relative group shrink-0">
         <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary to-orange-600 opacity-25 blur transition duration-300 group-hover:opacity-50"></div>
-        <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-card border border-primary/20 shadow-xl">
-          <Store className="h-6 w-6 text-primary" />
+        <div className="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-card border border-primary/20 shadow-xl">
+          <Store className="h-4 w-4 sm:h-6 sm:w-6 text-primary" />
         </div>
       </div>
-      <div className="flex flex-col">
-        <h1 className="bg-gradient-to-r from-foreground via-foreground to-foreground/60 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent font-heading">
+      <div className="flex flex-col min-w-0">
+        <h1 className="bg-gradient-to-r from-foreground via-foreground to-foreground/60 bg-clip-text text-base sm:text-2xl font-extrabold tracking-tight text-transparent font-heading truncate">
           {canteenName}
         </h1>
-        <div className="flex items-center gap-2">
-          <span className="flex h-1.5 w-1.5 rounded-full bg-success animate-pulse"></span>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
+        <div className="flex items-center gap-1.5">
+          <span className="flex h-1.5 w-1.5 rounded-full bg-success animate-pulse shrink-0"></span>
+          <p className="text-[9px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-muted-foreground/70 truncate">
             Canteen Dashboard
           </p>
         </div>

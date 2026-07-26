@@ -146,12 +146,12 @@ const CanteenOwnerOrders = () => {
                 {group.map((o) => (
                   <div
                     key={o._id}
-                    className="rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-shadow animate-fade-in"
+                    className="rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow animate-fade-in"
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-bold text-primary">{o.orderId}</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-bold text-primary truncate">{o.orderId}</span>
                       <span
-                        className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        className={`rounded-full px-2.5 py-0.5 text-[10px] sm:text-xs font-semibold capitalize shrink-0 ${
                           o.status === "completed"
                             ? "bg-success/10 text-success"
                             : o.status === "preparing"
@@ -168,30 +168,34 @@ const CanteenOwnerOrders = () => {
                       {o.userId?.name ? ` • ${o.userId.name}` : ""}
                     </p>
 
-                    <ul className="mt-3 space-y-1">
+                    <ul className="mt-2.5 space-y-1 border-t border-b border-border/50 py-2.5 my-2.5">
                       {o.items?.map((item, i) => (
-                        <li key={i} className="text-sm text-muted-foreground">
-                          {item.itemName} × {item.quantity}
+                        <li key={i} className="text-xs sm:text-sm text-foreground/80 flex items-center justify-between">
+                          <span className="truncate pr-2">{item.itemName}</span>
+                          <span className="font-semibold text-muted-foreground shrink-0">×{item.quantity}</span>
                         </li>
                       ))}
                     </ul>
 
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-sm font-semibold text-foreground">₹{o.totalAmount}</span>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
+                      <div className="flex items-center justify-between sm:justify-start gap-2">
+                        <span className="text-xs text-muted-foreground uppercase font-medium">Total:</span>
+                        <span className="text-base font-extrabold text-foreground">₹{o.totalAmount}</span>
+                      </div>
 
                       {o.status === "pending" && (
-                        <div className="flex gap-2">
+                        <div className="grid grid-cols-2 gap-2 w-full sm:w-auto">
                           <button
                             onClick={() => updateStatus(o._id, "preparing")}
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-warning px-3 py-1.5 text-xs font-medium text-warning-foreground hover:bg-warning/90 transition-colors"
+                            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-warning px-3 py-2 text-xs font-bold text-warning-foreground hover:bg-warning/90 transition-colors shadow-sm active:scale-95"
                           >
-                            <ChefHat className="h-3.5 w-3.5" /> Preparing
+                            <ChefHat className="h-4 w-4" /> Preparing
                           </button>
                           <button
                             onClick={() => updateStatus(o._id, "completed")}
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-success px-3 py-1.5 text-xs font-medium text-success-foreground hover:bg-success/90 transition-colors"
+                            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-success px-3 py-2 text-xs font-bold text-success-foreground hover:bg-success/90 transition-colors shadow-sm active:scale-95"
                           >
-                            <CheckCircle2 className="h-3.5 w-3.5" /> Complete
+                            <CheckCircle2 className="h-4 w-4" /> Complete
                           </button>
                         </div>
                       )}
@@ -199,9 +203,9 @@ const CanteenOwnerOrders = () => {
                       {o.status === "preparing" && (
                         <button
                           onClick={() => updateStatus(o._id, "completed")}
-                          className="inline-flex items-center gap-1.5 rounded-lg bg-success px-3 py-1.5 text-xs font-medium text-success-foreground hover:bg-success/90 transition-colors"
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl bg-success px-3.5 py-2 text-xs font-bold text-success-foreground hover:bg-success/90 transition-colors shadow-sm active:scale-95"
                         >
-                          <CheckCircle2 className="h-3.5 w-3.5" /> Mark Completed
+                          <CheckCircle2 className="h-4 w-4" /> Mark Completed
                         </button>
                       )}
                     </div>
