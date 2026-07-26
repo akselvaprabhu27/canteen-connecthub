@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { Wallet, Plus, ArrowUpRight, ArrowDownLeft, Clock, ChevronRight, AlertCircle, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -70,7 +69,6 @@ const MyWalletPage = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <Navbar />
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>

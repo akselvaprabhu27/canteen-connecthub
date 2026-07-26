@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { Smartphone, CreditCard, Wallet } from "lucide-react";
 import { toast } from "sonner";
@@ -132,7 +131,6 @@ const PaymentPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <div className="mx-auto max-w-lg px-4 py-8 sm:px-6">
         <h1 className="font-heading text-2xl font-bold text-foreground">Payment</h1>
         <div className="mt-8 rounded-xl border border-border bg-card p-6 shadow-sm animate-fade-in">

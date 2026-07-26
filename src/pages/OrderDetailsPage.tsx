@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { ReportIssueModal } from "@/components/ReportIssueModal";
 import { Link, useNavigate } from "react-router-dom";
 import { Clock, CheckCircle2, Package, Search, ChevronRight, IndianRupee, Heart, UtensilsCrossed, AlertTriangle } from "lucide-react";
@@ -79,7 +78,6 @@ const OrderDetailsPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <div className="mx-auto max-w-4xl px-3 py-4 sm:px-6 sm:py-8">
         <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>

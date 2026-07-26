@@ -1,5 +1,4 @@
-import { Navbar } from "@/components/Navbar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Plus, Minus, Trash2, Heart, ArrowLeft, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -196,7 +195,6 @@ const CartPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex items-center justify-between">
           <div>

@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Star, Send, MessageSquare, UtensilsCrossed } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -135,7 +134,6 @@ const ReviewPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
 
         {/* Header */}

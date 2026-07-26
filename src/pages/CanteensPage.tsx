@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { Link, useSearchParams } from "react-router-dom";
 import { UtensilsCrossed, Star, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -52,7 +51,6 @@ const CanteensPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <div className="mb-8">
           <h1 className="font-heading text-2xl font-bold text-foreground">Canteens</h1>

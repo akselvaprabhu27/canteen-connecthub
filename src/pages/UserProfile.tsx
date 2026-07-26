@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Mail, Phone, MapPin, Save, ArrowLeft, Camera, LogOut } from "lucide-react";
@@ -216,7 +215,6 @@ const UserProfile = () => {
 
   return (
     <div className="min-h-screen bg-background font-sans">
-      <Navbar />
       <div className="mx-auto max-w-4xl px-3 py-6 sm:px-6 sm:py-12">
         <div className="flex items-center justify-between mb-6 sm:mb-8">
           <button 

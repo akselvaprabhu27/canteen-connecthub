@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { Link, useSearchParams } from "react-router-dom";
 import { Plus, Minus, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -156,7 +155,6 @@ const MenuPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <div className="mb-8 flex items-center justify-between">
           <div>

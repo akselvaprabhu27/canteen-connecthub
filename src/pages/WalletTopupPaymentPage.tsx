@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle2, ChevronLeft, CreditCard, Landmark, Smartphone, Sparkles, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -108,7 +107,6 @@ const WalletTopupPaymentPage = () => {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      <Navbar />
       <div className="mx-auto max-w-lg px-4 py-8 sm:px-6">
         <button 
           onClick={() => navigate("/my-wallet")}
