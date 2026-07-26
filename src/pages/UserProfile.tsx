@@ -1,12 +1,18 @@
 import { Navbar } from "@/components/Navbar";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Mail, Phone, MapPin, Save, ArrowLeft, Camera } from "lucide-react";
+import { User, Mail, Phone, MapPin, Save, ArrowLeft, Camera, LogOut } from "lucide-react";
 import { toast } from "sonner";
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -211,39 +217,47 @@ const UserProfile = () => {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
-        <button 
-          onClick={() => navigate(-1)} 
-          className="mb-8 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" /> Back to Dashboard
-        </button>
+      <div className="mx-auto max-w-4xl px-3 py-6 sm:px-6 sm:py-12">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="flex items-center gap-2 text-xs sm:text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+          </button>
+          <button 
+            onClick={logout}
+            className="flex items-center gap-1.5 rounded-xl border border-destructive/30 bg-destructive/10 px-3.5 py-2 text-xs font-bold text-destructive hover:bg-destructive/20 transition-all shadow-sm"
+          >
+            <LogOut className="h-3.5 w-3.5" /> Logout
+          </button>
+        </div>
 
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {/* Profile Section */}
-          <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-2xl shadow-primary/5 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="h-32 bg-gradient-to-r from-primary/80 to-primary" />
+          <div className="overflow-hidden rounded-2xl sm:rounded-3xl border border-border bg-card shadow-2xl shadow-primary/5 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="h-28 sm:h-32 bg-gradient-to-r from-primary/80 to-primary" />
             
-            <div className="relative px-8 pb-8">
-              <div className="absolute -top-16 left-8">
+            <div className="relative px-4 pb-6 sm:px-8 sm:pb-8">
+              <div className="absolute -top-14 left-1/2 -translate-x-1/2 sm:left-8 sm:translate-x-0">
                 <div className="relative">
-                  <div className="flex h-32 w-32 items-center justify-center rounded-3xl border-4 border-card bg-primary text-4xl font-bold text-primary-foreground shadow-xl">
+                  <div className="flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-3xl border-4 border-card bg-primary text-3xl sm:text-4xl font-bold text-primary-foreground shadow-xl">
                     {formData.name.charAt(0).toUpperCase()}
                   </div>
-                  <button className="absolute -bottom-2 -right-2 flex h-10 w-10 items-center justify-center rounded-xl bg-card border border-border text-foreground shadow-lg hover:bg-muted transition-colors">
-                    <Camera className="h-5 w-5" />
+                  <button className="absolute -bottom-2 -right-2 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-card border border-border text-foreground shadow-lg hover:bg-muted transition-colors">
+                    <Camera className="h-4 w-4 sm:h-5 sm:w-5" />
                   </button>
                 </div>
               </div>
 
-              <div className="ml-40 pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h1 className="text-3xl font-bold text-foreground">{formData.name}</h1>
-                  <p className="text-sm text-muted-foreground">{formData.email}</p>
+              <div className="pt-16 sm:pt-4 sm:ml-40 flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left justify-between gap-4">
+                <div className="min-w-0">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-foreground truncate">{formData.name}</h1>
+                  <p className="text-xs sm:text-sm text-muted-foreground truncate">{formData.email}</p>
                 </div>
                 <button 
                   onClick={handleSave}
-                  className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-[0.98]"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-[0.98]"
                 >
                   <Save className="h-4 w-4" /> Save Changes
                 </button>

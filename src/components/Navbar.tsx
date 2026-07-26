@@ -56,6 +56,9 @@ export function Navbar() {
         <div className="hidden items-center gap-6 md:flex">
           {user ? (
             <>
+              <Link to="/profile" className="flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-primary transition-colors">
+                <User className="h-4 w-4" /> Profile
+              </Link>
               <button onClick={logout} className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">
                 <LogOut className="h-3.5 w-3.5" /> Logout
               </button>
@@ -77,8 +80,10 @@ export function Navbar() {
         <div className="border-t border-border bg-card px-4 py-4 md:hidden space-y-3 animate-in slide-in-from-top-2">
           {user ? (
             <>
-
-              <button onClick={logout} className="flex w-full items-center gap-2 text-sm font-medium text-destructive p-2">
+              <Link to="/profile" className="flex items-center gap-2 text-sm font-medium text-foreground p-2 rounded-lg hover:bg-muted" onClick={() => setOpen(false)}>
+                <User className="h-4 w-4 text-primary" /> Profile ({user.name || user.email?.split("@")[0]})
+              </Link>
+              <button onClick={() => { setOpen(false); logout(); }} className="flex w-full items-center gap-2 text-sm font-medium text-destructive p-2 rounded-lg hover:bg-muted">
                 <LogOut className="h-4 w-4" /> Logout
               </button>
             </>

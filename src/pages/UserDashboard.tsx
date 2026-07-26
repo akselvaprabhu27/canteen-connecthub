@@ -19,6 +19,7 @@ const UserDashboard = () => {
   const [canteens, setCanteens] = useState<Canteen[]>([]);
   const [selectedCanteen, setSelectedCanteen] = useState<Canteen | null>(null);
   const [menu, setMenu] = useState<MenuItem[]>([]);
+  const [menuSearch, setMenuSearch] = useState("");
   // Multi-canteen cart: Record<canteenId, { items: Record<itemId, number>, name: string, orgId: string }>
   const [carts, setCarts] = useState<Record<string, any>>({});
   const [orders, setOrders] = useState<Order[]>([]);
@@ -219,6 +220,11 @@ const UserDashboard = () => {
     
   const currentCartTotal = currentCartItems.reduce((s, i) => s + i.price * i.qty, 0);
   const filteredOrgs = orgs.filter(o => o.name?.toLowerCase().includes(orgSearch.toLowerCase()));
+  const filteredMenuItems = menu.filter(m => 
+    m.itemName?.toLowerCase().includes(menuSearch.toLowerCase()) ||
+    (m.desc && m.desc.toLowerCase().includes(menuSearch.toLowerCase())) ||
+    (m.category && m.category.toLowerCase().includes(menuSearch.toLowerCase()))
+  );
   const userName = user?.name || user?.email?.split("@")[0] || "User";
   const initials = userName.charAt(0).toUpperCase();
   const todayOrders = orders.filter(o => new Date(o.createdAt).toDateString() === new Date().toDateString());
@@ -337,48 +343,47 @@ const UserDashboard = () => {
             <UtensilsCrossed className="h-6 w-6" /> CanteenHub
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/profile" className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:scale-110 transition-transform">{initials}</Link>
-            <button onClick={logout} className="hidden sm:flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">
-              <LogOut className="h-3.5 w-3.5" /> Logout
-            </button>
+            <Link to="/profile" className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:scale-105 transition-transform shadow-md shadow-primary/20" title="View Profile">
+              {initials}
+            </Link>
           </div>
         </div>
       </nav>
 
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+      <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
         {/* Welcome + Org Search */}
-        <div className="relative mb-8 rounded-3xl bg-gradient-to-br from-[#00A8E8] via-[#007EA7] to-[#003459] p-8 text-primary-foreground shadow-2xl shadow-primary/30 z-30">
-          {/* Decorative background elements - contained in their own overflow-hidden layer */}
-          <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+        <div className="relative mb-6 sm:mb-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#00A8E8] via-[#007EA7] to-[#003459] p-5 sm:p-8 text-primary-foreground shadow-2xl shadow-primary/30 z-30">
+          {/* Decorative background elements */}
+          <div className="absolute inset-0 rounded-2xl sm:rounded-3xl overflow-hidden pointer-events-none">
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
             <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
           </div>
 
-          <div className="relative z-40 flex flex-col gap-10">
+          <div className="relative z-40 flex flex-col gap-6 sm:gap-10">
             {/* Top Row: Welcome & Quote */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="animate-in fade-in slide-in-from-left duration-700">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
+              <div className="animate-in fade-in slide-in-from-left duration-700 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <div className="h-1 w-8 rounded-full bg-white/30" />
+                  <div className="h-1 w-6 sm:w-8 rounded-full bg-white/30" />
                   <p className="text-white/80 text-[10px] font-bold uppercase tracking-widest">User Dashboard</p>
                 </div>
-                <p className="text-white/70 text-sm font-medium">Welcome back,</p>
-                <h1 className="text-5xl font-black mt-1 tracking-tight text-white drop-shadow-sm">
+                <p className="text-white/70 text-xs sm:text-sm font-medium">Welcome back,</p>
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black mt-0.5 sm:mt-1 tracking-tight text-white drop-shadow-sm leading-tight break-words">
                   {userName}<span className="text-white/40">!</span>
                 </h1>
               </div>
 
-              {/* Quote Box - One Line, Right Aligned */}
-              <div className="animate-in fade-in zoom-in duration-1000 delay-300 md:ml-auto">
+              {/* Quote Box - Responsive, wrapped, no overflow */}
+              <div className="animate-in fade-in zoom-in duration-1000 delay-300 w-full md:w-auto md:ml-auto">
                 <div 
-                  className="group relative flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl transition-all hover:bg-white/15"
+                  className="group relative flex items-center gap-2.5 px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl transition-all hover:bg-white/15"
                   style={{ 
                     opacity: quoteFade ? 1 : 0,
                     transform: `translateX(${quoteFade ? '0' : '10px'})`,
                   }}
                 >
-                  <Sparkles className="h-5 w-5 text-white/40 animate-pulse shrink-0" />
-                  <p className="text-lg md:text-xl font-bold italic text-white whitespace-nowrap tracking-tight drop-shadow-md">
+                  <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-white/50 animate-pulse shrink-0" />
+                  <p className="text-xs sm:text-base md:text-xl font-bold italic text-white tracking-tight drop-shadow-md leading-snug">
                     "{foodQuotes[quoteIdx]}"
                   </p>
                 </div>
@@ -387,28 +392,28 @@ const UserDashboard = () => {
 
             {/* Bottom Row: Search Bar */}
             <div ref={orgRef} className="relative animate-in fade-in slide-in-from-bottom duration-700 delay-200 z-50">
-              <div className="group flex items-center gap-3 rounded-2xl bg-white/15 backdrop-blur-xl border border-white/25 px-5 py-4 shadow-xl transition-all focus-within:bg-white/25 focus-within:ring-2 focus-within:ring-white/30 max-w-md">
-                <Search className="h-5 w-5 text-white/70 shrink-0 group-focus-within:text-white transition-colors" />
+              <div className="group flex items-center gap-2.5 rounded-xl sm:rounded-2xl bg-white/15 backdrop-blur-xl border border-white/25 px-4 py-3 sm:px-5 sm:py-4 shadow-xl transition-all focus-within:bg-white/25 focus-within:ring-2 focus-within:ring-white/30 w-full md:max-w-md">
+                <Search className="h-4 w-4 sm:h-5 sm:w-5 text-white/70 shrink-0 group-focus-within:text-white transition-colors" />
                 <input
-                  className="flex-1 bg-transparent text-white placeholder:text-white/60 text-sm font-semibold outline-none"
+                  className="flex-1 min-w-0 bg-transparent text-white placeholder:text-white/60 text-xs sm:text-sm font-semibold outline-none"
                   placeholder="Search your organization..."
                   value={orgSearch}
                   onChange={e => { setOrgSearch(e.target.value); setShowOrgDrop(true); }}
                   onFocus={() => setShowOrgDrop(true)}
                 />
                 {orgSearch && (
-                  <button onClick={() => { setOrgSearch(""); setSelectedOrg(null); setCanteens([]); setSelectedCanteen(null); setMenu([]); }} className="text-white/60 hover:text-white bg-white/10 rounded-full p-1.5 transition-colors">
+                  <button onClick={() => { setOrgSearch(""); setSelectedOrg(null); setCanteens([]); setSelectedCanteen(null); setMenu([]); setMenuSearch(""); }} className="text-white/60 hover:text-white bg-white/10 rounded-full p-1 sm:p-1.5 transition-colors">
                     <X className="h-3.5 w-3.5" />
                   </button>
                 )}
               </div>
               
               {showOrgDrop && filteredOrgs.length > 0 && (
-                <div className="absolute top-full left-0 mt-3 w-full max-w-md z-[100] rounded-2xl border border-border/50 bg-card/95 backdrop-blur-xl shadow-2xl overflow-hidden max-h-72 overflow-y-auto animate-in fade-in slide-in-from-top-2 border-white/20">
+                <div className="absolute top-full left-0 mt-2 sm:mt-3 w-full md:max-w-md z-[100] rounded-xl sm:rounded-2xl border border-border/50 bg-card/95 backdrop-blur-xl shadow-2xl overflow-hidden max-h-72 overflow-y-auto animate-in fade-in slide-in-from-top-2 border-white/20">
                   {filteredOrgs.map(org => (
-                    <button key={org._id} onClick={() => selectOrg(org)} className="w-full flex items-center gap-4 px-5 py-4 text-left hover:bg-primary/5 transition-colors border-b border-border/50 last:border-0 group">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm"><Building2 className="h-5 w-5" /></div>
-                      <div><p className="text-sm font-bold text-foreground">{org.name}</p><p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mt-0.5">{org.type || "Organization"}</p></div>
+                    <button key={org._id} onClick={() => selectOrg(org)} className="w-full flex items-center gap-3 sm:gap-4 px-4 py-3 sm:px-5 sm:py-4 text-left hover:bg-primary/5 transition-colors border-b border-border/50 last:border-0 group">
+                      <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm shrink-0"><Building2 className="h-4 w-4 sm:h-5 sm:w-5" /></div>
+                      <div className="min-w-0 flex-1"><p className="text-xs sm:text-sm font-bold text-foreground truncate">{org.name}</p><p className="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mt-0.5">{org.type || "Organization"}</p></div>
                     </button>
                   ))}
                 </div>
@@ -417,21 +422,21 @@ const UserDashboard = () => {
           </div>
         </div>
 
-        {/* Stats Row */}
-        <div className="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* Stats Row - Compact 3 column grid on mobile */}
+        <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-4">
           {[
-            { label: "My Wallet", value: `₹${walletBalance}`, icon: <Wallet className="h-4 w-4" />, color: "text-emerald-500 bg-emerald-500/10", link: "/my-wallet" },
+            { label: "My Wallet", value: `₹${walletBalance}`, icon: <Wallet className="h-3.5 w-3.5 sm:h-4 sm:w-4" />, color: "text-emerald-500 bg-emerald-500/10", link: "/my-wallet" },
             { 
               label: "My Carts", 
               value: activeCartCount, 
-              icon: <ShoppingCart className="h-4 w-4" />, 
+              icon: <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />, 
               color: "text-primary bg-primary/10",
               onClick: () => setShowCart(true)
             },
             { 
               label: "My Favorites", 
               value: favoriteCarts.length, 
-              icon: <Heart className="h-4 w-4" />, 
+              icon: <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />, 
               color: "text-pink-500 bg-pink-500/10",
               onClick: () => {
                 const favEl = document.getElementById('favorites-section');
@@ -440,16 +445,20 @@ const UserDashboard = () => {
             },
           ].map(s => (
             s.link ? (
-              <Link key={s.label} to={s.link} className="rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
-                <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl ${s.color}`}>{s.icon}</div>
-                <p className="text-xl font-bold text-foreground">{s.value}</p>
-                <p className="text-sm text-muted-foreground">{s.label}</p>
+              <Link key={s.label} to={s.link} className="rounded-xl sm:rounded-2xl border border-border bg-card p-3 sm:p-5 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 flex flex-col justify-between">
+                <div className={`mb-2 sm:mb-3 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl ${s.color}`}>{s.icon}</div>
+                <div>
+                  <p className="text-sm sm:text-xl font-bold text-foreground truncate">{s.value}</p>
+                  <p className="text-[10px] sm:text-sm text-muted-foreground truncate">{s.label}</p>
+                </div>
               </Link>
             ) : (
-              <button key={s.label} onClick={s.onClick} className="text-left rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1">
-                <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl ${s.color} group-hover:scale-110 transition-transform`}>{s.icon}</div>
-                <p className="text-xl font-bold text-foreground">{s.value}</p>
-                <p className="text-sm text-muted-foreground">{s.label}</p>
+              <button key={s.label} onClick={s.onClick} className="text-left rounded-xl sm:rounded-2xl border border-border bg-card p-3 sm:p-5 shadow-sm hover:shadow-md transition-all group hover:-translate-y-0.5 flex flex-col justify-between">
+                <div className={`mb-2 sm:mb-3 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl ${s.color} group-hover:scale-110 transition-transform`}>{s.icon}</div>
+                <div>
+                  <p className="text-sm sm:text-xl font-bold text-foreground truncate">{s.value}</p>
+                  <p className="text-[10px] sm:text-sm text-muted-foreground truncate">{s.label}</p>
+                </div>
               </button>
             )
           ))}
@@ -500,24 +509,59 @@ const UserDashboard = () => {
             {selectedCanteen && (
               <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
                 <div className="flex items-center justify-between border-b border-border px-5 py-4">
-                  <div className="flex items-center gap-2">
-                    <button onClick={() => { setSelectedCanteen(null); setMenu([]); }} className="flex h-7 w-7 items-center justify-center rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground"><ChevronRight className="h-4 w-4 rotate-180" /></button>
-                    <div><h2 className="font-semibold text-foreground">{selectedCanteen.canteenName}</h2><p className="text-xs text-muted-foreground">{menu.length} items</p></div>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <button onClick={() => { setSelectedCanteen(null); setMenu([]); setMenuSearch(""); }} className="flex h-7 w-7 items-center justify-center rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground shrink-0"><ChevronRight className="h-4 w-4 rotate-180" /></button>
+                    <div className="min-w-0">
+                      <h2 className="font-semibold text-foreground truncate">{selectedCanteen.canteenName}</h2>
+                      <p className="text-xs text-muted-foreground">
+                        {menuSearch ? `${filteredMenuItems.length} of ${menu.length} items` : `${menu.length} items`}
+                      </p>
+                    </div>
                   </div>
                   {totalItemCount > 0 && (
-                    <button onClick={() => goToCart()} className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
+                    <button onClick={() => goToCart()} className="flex items-center gap-2 rounded-xl bg-primary px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shrink-0">
                       <ShoppingCart className="h-4 w-4" /> Cart ({totalItemCount}) · ₹{currentCartTotal}
                     </button>
                   )}
                 </div>
                 <div className="p-4">
+                  {/* Live Item Search Input Bar */}
+                  {menu.length > 0 && (
+                    <div className="relative mb-4">
+                      <div className="flex items-center gap-2 rounded-xl border border-border bg-background px-3.5 py-2.5 shadow-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+                        <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+                        <input
+                          type="text"
+                          placeholder={`Search items in ${selectedCanteen.canteenName}...`}
+                          value={menuSearch}
+                          onChange={(e) => setMenuSearch(e.target.value)}
+                          className="flex-1 min-w-0 bg-transparent text-xs sm:text-sm text-foreground placeholder:text-muted-foreground outline-none"
+                        />
+                        {menuSearch && (
+                          <button onClick={() => setMenuSearch("")} className="text-muted-foreground hover:text-foreground p-1 transition-colors">
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                   {loadingMenu ? (
                     <div className="grid gap-3 sm:grid-cols-2">{[1,2,3,4].map(i => <div key={i} className="h-28 rounded-xl bg-muted animate-pulse" />)}</div>
                   ) : menu.length === 0 ? (
                     <div className="py-10 text-center text-muted-foreground"><UtensilsCrossed className="mx-auto h-10 w-10 opacity-30 mb-2" /><p>No menu items available.</p></div>
+                  ) : filteredMenuItems.length === 0 ? (
+                    <div className="py-10 text-center text-muted-foreground">
+                      <Search className="mx-auto h-10 w-10 opacity-30 mb-2" />
+                      <p className="text-sm font-bold text-foreground">No items matching "{menuSearch}"</p>
+                      <p className="text-xs text-muted-foreground mt-1">Try searching for a different dish name or category</p>
+                      <button onClick={() => setMenuSearch("")} className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-3.5 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors">
+                        Clear Search
+                      </button>
+                    </div>
                   ) : (
                     <div className="grid gap-3 sm:grid-cols-2">
-                      {menu.map(item => {
+                      {filteredMenuItems.map(item => {
                         const iStats = itemRatingStats[item._id];
                         const avg = iStats?.averageRating || 0;
                         const cnt = iStats?.totalRatings || 0;
@@ -673,20 +717,6 @@ const UserDashboard = () => {
                   ))}
                 </div>
               )}
-            </div>
-
-            {/* Compact Profile Info Swapped to Bottom */}
-            <div className="rounded-2xl border border-border bg-muted/30 p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary font-bold">{initials}</div>
-                <div>
-                  <p className="text-sm font-bold text-foreground">{userName}</p>
-                  <p className="text-[10px] text-muted-foreground">{user?.email}</p>
-                </div>
-              </div>
-              <button onClick={logout} className="flex items-center gap-1.5 rounded-lg bg-background border border-border px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors">
-                <LogOut className="h-3 w-3" /> Logout
-              </button>
             </div>
           </div>
           {/* Right Sidebar */}
