@@ -11,43 +11,43 @@ const LandingPage = () => {
   const [showRegisterBusiness, setShowRegisterBusiness] = useState(false);
 
   return (
-    <div className="h-screen overflow-hidden bg-background flex flex-col relative">
+    <div className="min-h-screen bg-background flex flex-col relative">
       <Navbar />
 
-      <div className="flex-1 relative flex flex-col items-center justify-center overflow-y-auto">
+      <div className="flex-1 relative flex flex-col items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/10 pointer-events-none" />
-        <div className="relative mx-auto max-w-7xl px-4 text-center z-0 flex flex-col items-center justify-center my-auto min-h-full py-20">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
-            <UtensilsCrossed className="h-4 w-4" /> Centralized Canteen Platform
+        <div className="relative mx-auto max-w-7xl px-4 text-center z-0 flex flex-col items-center justify-center my-auto py-10 sm:py-20">
+          <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1.5 text-xs sm:text-sm font-medium text-primary">
+            <UtensilsCrossed className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Centralized Canteen Platform
           </div>
-          <h1 className="font-heading text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl leading-tight">
             One Platform to Manage{" "}
-            <span className="text-primary">All Your Canteens</span>
+            <span className="text-primary block sm:inline mt-1 sm:mt-0">All Your Canteens</span>
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground sm:text-xl max-w-2xl mx-auto">
+          <p className="mt-3 sm:mt-4 text-sm sm:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
             CanteenHub helps organizations manage canteens and enables users to order food easily.
           </p>
-          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link to="/login" className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all">
+          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none">
+            <Link to="/login" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all">
               Login
             </Link>
-            <Link to="/register" className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-8 py-3.5 text-sm font-bold text-foreground shadow-sm hover:bg-muted transition-colors">
+            <Link to="/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-8 py-3 text-sm font-bold text-foreground shadow-sm hover:bg-muted transition-colors">
               Register <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
           {/* Built for Every Organization (Small Strip) */}
-          <div className="mt-16 border-t border-border/50 pt-8 w-full max-w-3xl">
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-6">Built for Every Organization</p>
-            <div className="flex flex-wrap justify-center gap-8 sm:gap-12 opacity-60">
+          <div className="mt-12 sm:mt-16 border-t border-border/50 pt-6 sm:pt-8 w-full max-w-3xl">
+            <p className="text-[11px] sm:text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 sm:mb-6">Built for Every Organization</p>
+            <div className="flex flex-wrap justify-center gap-6 sm:gap-12 opacity-70">
               {[
-                { icon: <GraduationCap className="h-6 w-6" />, label: "Colleges" },
-                { icon: <Briefcase className="h-6 w-6" />, label: "Companies" },
-                { icon: <Hospital className="h-6 w-6" />, label: "Hospitals" },
-                { icon: <Hotel className="h-6 w-6" />, label: "Hostels" },
-                { icon: <Landmark className="h-6 w-6" />, label: "Tech Parks" },
+                { icon: <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6" />, label: "Colleges" },
+                { icon: <Briefcase className="h-5 w-5 sm:h-6 sm:w-6" />, label: "Companies" },
+                { icon: <Hospital className="h-5 w-5 sm:h-6 sm:w-6" />, label: "Hospitals" },
+                { icon: <Hotel className="h-5 w-5 sm:h-6 sm:w-6" />, label: "Hostels" },
+                { icon: <Landmark className="h-5 w-5 sm:h-6 sm:w-6" />, label: "Tech Parks" },
               ].map((item) => (
-                <div key={item.label} className="flex flex-col items-center gap-2">
+                <div key={item.label} className="flex flex-col items-center gap-1.5">
                   <div className="text-foreground">{item.icon}</div>
                   <span className="text-[10px] font-medium text-foreground">{item.label}</span>
                 </div>

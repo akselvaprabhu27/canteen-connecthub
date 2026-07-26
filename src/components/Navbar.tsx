@@ -3,7 +3,6 @@ import { UtensilsCrossed, Menu, X, LogOut, Wallet, User } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export function Navbar() {
-  const [open, setOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [balance, setBalance] = useState<number | null>(null);
   const navigate = useNavigate();
@@ -44,57 +43,35 @@ export function Navbar() {
     navigate("/login");
   };
 
-  const initials = user?.name ? user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) : "??";
-
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-lg">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-2 font-heading text-xl font-bold text-primary">
-          <UtensilsCrossed className="h-6 w-6" /> CanteenHub
-        </div>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-3 sm:px-6">
+        <Link to="/" className="flex items-center gap-2 font-heading text-lg sm:text-xl font-bold text-primary shrink-0">
+          <UtensilsCrossed className="h-5 w-5 sm:h-6 sm:w-6" /> CanteenHub
+        </Link>
         
-        <div className="hidden items-center gap-6 md:flex">
+        <div className="flex items-center gap-2 sm:gap-4">
           {user ? (
             <>
-              <Link to="/profile" className="flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-primary transition-colors">
-                <User className="h-4 w-4" /> Profile
+              <Link to="/profile" className="flex items-center gap-1.5 rounded-lg bg-primary/10 px-2.5 py-1.5 text-xs sm:text-sm font-semibold text-primary hover:bg-primary/20 transition-colors">
+                <User className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Profile
               </Link>
-              <button onClick={logout} className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted transition-colors">
+              <button onClick={logout} className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs sm:text-sm font-medium text-muted-foreground hover:bg-muted transition-colors">
                 <LogOut className="h-3.5 w-3.5" /> Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Login</Link>
-              <Link to="/register" className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors">Get Started</Link>
-            </>
-          )}
-        </div>
-
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="border-t border-border bg-card px-4 py-4 md:hidden space-y-3 animate-in slide-in-from-top-2">
-          {user ? (
-            <>
-              <Link to="/profile" className="flex items-center gap-2 text-sm font-medium text-foreground p-2 rounded-lg hover:bg-muted" onClick={() => setOpen(false)}>
-                <User className="h-4 w-4 text-primary" /> Profile ({user.name || user.email?.split("@")[0]})
+              <Link to="/login" className="text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1">
+                Login
               </Link>
-              <button onClick={() => { setOpen(false); logout(); }} className="flex w-full items-center gap-2 text-sm font-medium text-destructive p-2 rounded-lg hover:bg-muted">
-                <LogOut className="h-4 w-4" /> Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="block text-sm font-medium text-muted-foreground" onClick={() => setOpen(false)}>Login</Link>
-              <Link to="/register" className="block rounded-lg bg-primary px-4 py-2 text-center text-sm font-semibold text-primary-foreground" onClick={() => setOpen(false)}>Get Started</Link>
+              <Link to="/register" className="rounded-xl bg-primary px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors">
+                Get Started
+              </Link>
             </>
           )}
         </div>
-      )}
+      </div>
     </nav>
   );
 }
