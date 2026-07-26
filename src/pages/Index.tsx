@@ -14,23 +14,6 @@ const LandingPage = () => {
     <div className="h-screen overflow-hidden bg-background flex flex-col relative">
       <Navbar />
 
-      {/* Responsive Action Buttons (Floating on desktop, top flex row on mobile) */}
-      <div className="w-full flex items-center justify-between px-4 pt-3 sm:px-8 sm:pt-0 sm:absolute sm:top-20 sm:left-0 sm:right-0 z-10 gap-2 pointer-events-auto">
-        <button 
-          onClick={() => setShowHowItWorks(true)}
-          className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-foreground shadow-sm hover:bg-muted transition-colors"
-        >
-          <Info className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> How It Works
-        </button>
-
-        <button 
-          onClick={() => setShowRegisterBusiness(true)}
-          className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-primary shadow-sm hover:bg-primary/20 transition-colors"
-        >
-          <PlusCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Register Business
-        </button>
-      </div>
-
       <div className="flex-1 relative flex flex-col items-center justify-center overflow-y-auto">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/10 pointer-events-none" />
         <div className="relative mx-auto max-w-7xl px-4 text-center z-0 flex flex-col items-center justify-center my-auto min-h-full py-20">
