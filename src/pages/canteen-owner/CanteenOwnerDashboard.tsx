@@ -85,43 +85,63 @@ const CanteenOwnerDashboard = () => {
   if (loading) return <div className="text-muted-foreground py-10 text-center animate-pulse font-bold uppercase tracking-widest">Loading dashboard...</div>;
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StatCard title="Today's Orders" value={String(stats.todayOrders)} icon={<ShoppingCart className="h-5 w-5" />} />
-        <StatCard 
-          title="Pending from Org" 
-          value={`₹${(stats.pendingPayout || 0).toLocaleString()}`} 
-          icon={<Clock className="h-5 w-5 text-amber-500" />} 
-          className="bg-amber-500/5 border-amber-500/20"
-        />
-        
-        {/* Organization Messages Card */}
-        <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 shadow-sm hover:shadow-md transition-all group cursor-pointer" onClick={() => navigate('/canteen-owner/messages')}>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                <Bell className="h-4 w-4" />
-              </div>
-              <span className="text-xs font-black uppercase tracking-wider text-primary">Org Messages</span>
+    <div className="space-y-4 sm:space-y-6">
+      {/* Top 3 Stats Grid - Compact 3 Column Row on Mobile */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
+        {/* Today's Orders */}
+        <div className="rounded-2xl border border-border bg-card p-3 sm:p-5 shadow-sm flex flex-col justify-between min-w-0">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider truncate">Today</span>
+            <div className="p-1.5 sm:p-2 rounded-xl bg-primary/10 text-primary shrink-0">
+              <ShoppingCart className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
             </div>
           </div>
-          
-          {latestMessage ? (
-            <div className="space-y-1">
-              <h4 className="text-sm font-black text-foreground truncate">{latestMessage.title}</h4>
-              <p className="text-[11px] text-muted-foreground font-medium line-clamp-1">{latestMessage.message}</p>
-              <div className="flex items-center justify-between mt-3">
-                <span className="text-[9px] font-bold text-muted-foreground uppercase">{new Date(latestMessage.createdAt).toLocaleDateString()}</span>
-                <span className="text-[10px] font-black text-primary flex items-center group-hover:translate-x-1 transition-transform">
-                  View Inbox <ChevronRight className="h-3 w-3 ml-0.5" />
-                </span>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="text-lg sm:text-3xl font-extrabold text-foreground truncate">{stats.todayOrders}</h3>
+            <p className="text-[9px] sm:text-xs text-muted-foreground font-medium hidden sm:block">Orders Today</p>
+          </div>
+        </div>
+
+        {/* Pending from Org */}
+        <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-3 sm:p-5 shadow-sm flex flex-col justify-between min-w-0">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] sm:text-xs font-bold text-amber-500 uppercase tracking-wider truncate">Pending</span>
+            <div className="p-1.5 sm:p-2 rounded-xl bg-amber-500/10 text-amber-500 shrink-0">
+              <Clock className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-4">
+            <h3 className="text-sm sm:text-3xl font-extrabold text-foreground truncate">₹{(stats.pendingPayout || 0).toLocaleString()}</h3>
+            <p className="text-[9px] sm:text-xs text-muted-foreground font-medium hidden sm:block">From Org</p>
+          </div>
+        </div>
+
+        {/* Organization Messages */}
+        <div 
+          onClick={() => navigate('/canteen-owner/messages')}
+          className="rounded-2xl border border-primary/20 bg-primary/5 p-3 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between min-w-0 cursor-pointer group"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] sm:text-xs font-bold text-primary uppercase tracking-wider truncate">Messages</span>
+            <div className="p-1.5 sm:p-2 rounded-xl bg-primary/10 text-primary shrink-0">
+              <Bell className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-4">
+            {latestMessage ? (
+              <div>
+                <h4 className="text-xs sm:text-sm font-bold text-foreground truncate">{latestMessage.title}</h4>
+                <p className="text-[9px] sm:text-xs text-primary font-bold flex items-center mt-0.5">
+                  View <ChevronRight className="h-3 w-3 ml-0.5" />
+                </p>
               </div>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-2 opacity-50">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase">No new messages</p>
-            </div>
-          )}
+            ) : (
+              <div>
+                <h3 className="text-xs sm:text-sm font-bold text-muted-foreground opacity-70">None</h3>
+                <p className="text-[9px] sm:text-xs text-muted-foreground">Inbox Empty</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -131,25 +151,25 @@ const CanteenOwnerDashboard = () => {
           {(warnings.org > 0 || warnings.admin > 0) && (
             <div 
               onClick={() => navigate('/canteen-owner/warnings')}
-              className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-6 shadow-sm hover:shadow-md transition-all flex items-start gap-4 cursor-pointer group"
+              className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 sm:p-6 shadow-sm hover:shadow-md transition-all flex items-start gap-3 sm:gap-4 cursor-pointer group"
             >
-              <div className="p-3 rounded-2xl bg-amber-500/10 text-amber-500 shrink-0">
-                <AlertTriangle className="h-6 w-6 animate-bounce" />
+              <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-500 shrink-0">
+                <AlertTriangle className="h-5 w-5 sm:h-6 sm:w-6 animate-bounce" />
               </div>
-              <div className="space-y-1">
-                <h3 className="text-xs font-black text-amber-500 uppercase tracking-wider">Account Warning Advisory</h3>
+              <div className="space-y-1 min-w-0">
+                <h3 className="text-xs font-extrabold text-amber-500 uppercase tracking-wider">Account Warning Advisory</h3>
                 <p className="text-[11px] text-muted-foreground leading-relaxed font-semibold">
-                  Advisory warnings have been issued. Click here to review the official reports.
+                  Advisory warnings issued. Tap to review official reports.
                 </p>
-                <div className="flex flex-wrap gap-2 mt-3 pt-2 text-[10px] font-black uppercase">
+                <div className="flex flex-wrap gap-2 mt-2 pt-1 text-[10px] font-bold uppercase">
                   {warnings.org > 0 && (
-                    <span className="bg-amber-500/10 text-amber-600 px-2.5 py-0.5 rounded-md">
-                      Org Warnings: {warnings.org}
+                    <span className="bg-amber-500/10 text-amber-600 px-2 py-0.5 rounded-md">
+                      Org: {warnings.org}
                     </span>
                   )}
                   {warnings.admin > 0 && (
-                    <span className="bg-red-500/10 text-red-600 px-2.5 py-0.5 rounded-md">
-                      Admin Warnings: {warnings.admin}
+                    <span className="bg-red-500/10 text-red-600 px-2 py-0.5 rounded-md">
+                      Admin: {warnings.admin}
                     </span>
                   )}
                 </div>
@@ -157,37 +177,45 @@ const CanteenOwnerDashboard = () => {
             </div>
           )}
 
-          <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-            <h2 className="text-base font-black text-card-foreground">Recent Orders</h2>
-          <div className="mt-4 space-y-3">
-            {recentOrders.length === 0 ? (
-              <p className="text-sm text-muted-foreground font-medium italic opacity-50">No orders yet.</p>
-            ) : (
-              recentOrders.map((o) => (
-                <div key={o._id} className="flex items-center justify-between rounded-xl bg-muted/30 px-4 py-3 text-sm hover:bg-muted/50 transition-colors">
-                  <div className="max-w-[70%]">
-                    <span className="font-black text-primary">{o.orderId}</span>
-                    <p className="mt-0.5 text-xs text-muted-foreground font-medium truncate">{o.items?.map(i => `${i.itemName} ×${i.quantity}`).join(", ")}</p>
+          {/* Recent Orders */}
+          <div className="rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h2 className="text-sm sm:text-base font-extrabold text-card-foreground">Recent Orders</h2>
+              <button onClick={() => navigate('/canteen-owner/orders')} className="text-xs font-bold text-primary flex items-center gap-1 hover:underline">
+                View All <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
+            <div className="space-y-2.5">
+              {recentOrders.length === 0 ? (
+                <p className="text-xs text-muted-foreground font-medium italic opacity-60">No orders yet.</p>
+              ) : (
+                recentOrders.map((o) => (
+                  <div key={o._id} className="flex items-center justify-between rounded-xl bg-muted/30 px-3.5 py-2.5 text-xs sm:text-sm hover:bg-muted/50 transition-colors gap-2">
+                    <div className="min-w-0">
+                      <span className="font-extrabold text-primary">{o.orderId}</span>
+                      <p className="mt-0.5 text-[11px] sm:text-xs text-muted-foreground font-medium truncate">{o.items?.map(i => `${i.itemName} ×${i.quantity}`).join(", ")}</p>
+                    </div>
+                    <Badge variant="outline" className={`font-bold text-[9px] sm:text-[10px] uppercase tracking-tight shrink-0 ${o.status === "completed" ? "bg-success/10 text-success border-success/20" : o.status === "preparing" ? "bg-warning/10 text-warning border-warning/20" : "bg-accent/20 text-accent-foreground"}`}>{o.status}</Badge>
                   </div>
-                  <Badge variant="outline" className={`font-black text-[10px] uppercase tracking-tighter ${o.status === "completed" ? "bg-success/10 text-success border-success/20" : o.status === "preparing" ? "bg-warning/10 text-warning border-warning/20" : "bg-accent/20 text-accent-foreground"}`}>{o.status}</Badge>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
         </div>
-        </div>
-        <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-          <h2 className="text-base font-black text-card-foreground">Quick Stats</h2>
-          <div className="mt-4 space-y-3">
+
+        {/* Quick Stats Grid */}
+        <div className="rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-sm">
+          <h2 className="text-sm sm:text-base font-extrabold text-card-foreground mb-3 sm:mb-4">Quick Overview</h2>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-1 sm:gap-3">
             {[
               { label: "Avg Rating", value: stats.avgRating > 0 ? `${stats.avgRating} ★` : "—" },
               { label: "Total Reviews", value: String(stats.reviewCount) },
               { label: "Menu Items", value: String(stats.menuCount) },
               { label: "Total Orders", value: String(stats.totalOrders) },
             ].map((item) => (
-              <div key={item.label} className="flex justify-between rounded-xl bg-muted/30 px-4 py-3 text-sm">
-                <span className="text-muted-foreground font-bold uppercase text-[10px] tracking-wider">{item.label}</span>
-                <span className="font-black text-foreground">{item.value}</span>
+              <div key={item.label} className="flex flex-col sm:flex-row sm:justify-between rounded-xl bg-muted/30 p-3 text-xs sm:text-sm">
+                <span className="text-muted-foreground font-bold uppercase text-[9px] sm:text-[10px] tracking-wider">{item.label}</span>
+                <span className="font-extrabold text-foreground mt-1 sm:mt-0">{item.value}</span>
               </div>
             ))}
           </div>
