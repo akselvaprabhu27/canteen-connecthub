@@ -237,13 +237,15 @@ const AdminReports = () => {
   });
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] bg-background overflow-hidden">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-4rem)] bg-background overflow-hidden">
       {/* List/Table Panel */}
-      <div className={`flex flex-col transition-all duration-500 ease-in-out ${selectedReport ? 'w-1/3 border-r border-border' : 'w-full'}`}>
-        <div className="p-8 space-y-8 overflow-y-auto">
+      <div className={`flex flex-col transition-all duration-500 ease-in-out ${
+        selectedReport ? 'hidden md:flex md:w-1/3 border-r border-border w-full' : 'w-full flex-1 flex'
+      }`}>
+        <div className="p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 overflow-y-auto">
           {/* Analytics Summary - Only show when no report selected or in full view */}
           {!selectedReport && (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
               <div className="p-6 rounded-3xl bg-gradient-to-br from-primary to-orange-600 text-white shadow-xl shadow-primary/20">
                 <div className="flex justify-between items-start mb-4">
                   <div className="p-2 rounded-xl bg-white/20 backdrop-blur-sm">
@@ -457,9 +459,9 @@ const AdminReports = () => {
 
       {/* Details Panel - Shared Layout with Org Admin */}
       {selectedReport ? (
-        <div className="flex-1 flex flex-col bg-card/30 animate-in slide-in-from-right-full duration-500">
-          <div className="flex-1 overflow-y-auto p-8">
-            <div className="max-w-3xl mx-auto space-y-8">
+        <div className="w-full md:flex-1 flex flex-col bg-card/30 animate-in slide-in-from-right-full duration-500 overflow-hidden h-full">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+            <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
               {/* Header Info */}
               <div className="flex justify-between items-start">
                 <div>

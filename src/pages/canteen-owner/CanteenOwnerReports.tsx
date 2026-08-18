@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AlertTriangle, Clock, ChevronRight, MessageSquare, Loader2, CheckCircle, XCircle, Search, Filter, Camera, Send, ShieldAlert, CreditCard } from "lucide-react";
+import { AlertTriangle, Clock, ChevronRight, ChevronLeft, MessageSquare, Loader2, CheckCircle, XCircle, Search, Filter, Camera, Send, ShieldAlert, CreditCard } from "lucide-react";
 import { toast } from "sonner";
 
 interface Report {
@@ -161,11 +161,13 @@ const CanteenOwnerReports = () => {
   });
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] bg-background">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-4rem)] bg-background overflow-hidden">
       {/* List Panel */}
-      <div className={`flex flex-col border-r border-border transition-all duration-300 ${selectedReport ? 'w-1/3' : 'w-full'}`}>
-        <div className="p-6 border-b border-border bg-card/50">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Food Safety Reports</h1>
+      <div className={`flex flex-col border-r border-border transition-all duration-300 ${
+        selectedReport ? 'hidden md:flex md:w-1/3 w-full' : 'w-full flex-1 flex'
+      }`}>
+        <div className="p-4 sm:p-6 border-b border-border bg-card/50">
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-3 sm:mb-4">Food Safety Reports</h1>
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -174,13 +176,13 @@ const CanteenOwnerReports = () => {
                 placeholder="Search reports..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full rounded-xl border border-border bg-background pl-10 pr-4 py-2 text-sm text-white focus:ring-2 focus:ring-primary/20 outline-none"
+                className="w-full rounded-xl border border-border bg-background pl-10 pr-4 py-2 text-xs sm:text-sm text-white focus:ring-2 focus:ring-primary/20 outline-none"
               />
             </div>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-12 gap-3">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -198,19 +200,19 @@ const CanteenOwnerReports = () => {
               <button
                 key={report._id}
                 onClick={() => fetchReportDetails(report)}
-                className={`w-full text-left rounded-2xl border p-4 transition-all ${
+                className={`w-full text-left rounded-2xl border p-3.5 sm:p-4 transition-all ${
                   selectedReport?._id === report._id 
                     ? 'border-primary bg-primary/5 shadow-sm' 
                     : 'border-border bg-card hover:border-primary/50'
                 }`}
               >
-                <div className="flex justify-between items-start mb-2">
+                <div className="flex justify-between items-start mb-1.5 sm:mb-2">
                   <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{report.reportId}</span>
                 </div>
-                <h3 className="font-bold text-foreground truncate">{report.canteenId.canteenName}</h3>
-                <p className="text-xs text-muted-foreground mt-1">{report.issueType}</p>
-                <div className="flex items-center justify-between mt-4">
-                  <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${getStatusColor(report.status)}`}>
+                <h3 className="font-bold text-foreground text-sm sm:text-base truncate">{report.canteenId.canteenName}</h3>
+                <p className="text-xs text-muted-foreground mt-1 truncate">{report.issueType}</p>
+                <div className="flex flex-wrap items-center justify-between gap-2 mt-3 sm:mt-4">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 sm:py-1 rounded-lg ${getStatusColor(report.status)}`}>
                     {report.status}
                   </span>
                   <span className={`text-[10px] font-bold flex items-center gap-1 ${calculateDeadline(report.deadline, report.status) === 'Overdue' ? 'text-red-500' : (calculateDeadline(report.deadline, report.status) === 'Completed' ? 'text-green-500' : 'text-amber-500')}`}>
@@ -225,41 +227,49 @@ const CanteenOwnerReports = () => {
 
       {/* Details Panel */}
       {selectedReport ? (
-        <div className="flex-1 flex flex-col bg-card/30">
-          <div className="flex-1 overflow-y-auto p-8">
-            <div className="max-w-3xl mx-auto space-y-8">
+        <div className="w-full md:flex-1 flex flex-col bg-card/30 overflow-hidden h-full">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+            <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
+              {/* Back button on mobile */}
+              <button
+                onClick={() => setSelectedReport(null)}
+                className="md:hidden inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground mb-1 px-3 py-1.5 rounded-lg bg-muted/60 transition-colors w-fit"
+              >
+                <ChevronLeft className="h-4 w-4" /> Back to reports list
+              </button>
+
               {/* Header Info */}
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground">{selectedReport.reportId}</span>
-                    <span className={`px-2 py-1 rounded-lg text-[10px] font-bold ${getStatusColor(selectedReport.status)}`}>
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                    <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-muted-foreground">{selectedReport.reportId}</span>
+                    <span className={`px-2 py-0.5 sm:py-1 rounded-lg text-[10px] font-bold ${getStatusColor(selectedReport.status)}`}>
                       {selectedReport.status}
                     </span>
                   </div>
-                  <h2 className="text-3xl font-black tracking-tight text-foreground">{selectedReport.issueType}</h2>
-                  <p className="text-muted-foreground mt-1">Canteen: <span className="font-bold text-foreground">{selectedReport.canteenId.canteenName}</span></p>
+                  <h2 className="text-xl sm:text-3xl font-black tracking-tight text-foreground break-words">{selectedReport.issueType}</h2>
+                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">Canteen: <span className="font-bold text-foreground">{selectedReport.canteenId.canteenName}</span></p>
                 </div>
-                <div className="text-right">
-                  <p className="text-xs font-bold uppercase text-muted-foreground mb-1">Response Deadline</p>
-                  <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl border font-bold ${calculateDeadline(selectedReport.deadline, selectedReport.status) === 'Overdue' ? 'border-red-500 text-red-500 bg-red-500/5' : (calculateDeadline(selectedReport.deadline, selectedReport.status) === 'Completed' ? 'border-green-500 text-green-500 bg-green-500/5' : 'border-amber-500 text-amber-500 bg-amber-500/5')}`}>
-                    <Clock className="h-4 w-4" /> {calculateDeadline(selectedReport.deadline, selectedReport.status)}
+                <div className="sm:text-right shrink-0">
+                  <p className="text-[10px] sm:text-xs font-bold uppercase text-muted-foreground mb-1">Response Deadline</p>
+                  <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl border text-xs sm:text-sm font-bold ${calculateDeadline(selectedReport.deadline, selectedReport.status) === 'Overdue' ? 'border-red-500 text-red-500 bg-red-500/5' : (calculateDeadline(selectedReport.deadline, selectedReport.status) === 'Completed' ? 'border-green-500 text-green-500 bg-green-500/5' : 'border-amber-500 text-amber-500 bg-amber-500/5')}`}>
+                    <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> {calculateDeadline(selectedReport.deadline, selectedReport.status)}
                   </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
                 {/* Description */}
                 <div className="space-y-6">
-                  <div className="p-6 rounded-3xl border border-border bg-background shadow-sm">
-                    <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-4">Description</h4>
-                    <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{selectedReport.description}</p>
+                  <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-background shadow-sm">
+                    <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-3 sm:mb-4">Description</h4>
+                    <p className="text-xs sm:text-sm text-foreground leading-relaxed whitespace-pre-wrap break-words">{selectedReport.description}</p>
                   </div>
                 </div>
 
                 {/* Photos */}
-                <div className="p-6 rounded-3xl border border-border bg-background shadow-sm">
-                  <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-4">Evidence Photos</h4>
+                <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-background shadow-sm">
+                  <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-3 sm:mb-4">Evidence Photos</h4>
                   {selectedReport.photos && selectedReport.photos.length > 0 ? (
                     <div className="grid grid-cols-2 gap-3">
                       {selectedReport.photos.map((photo, i) => (
@@ -269,8 +279,8 @@ const CanteenOwnerReports = () => {
                       ))}
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-border rounded-2xl text-muted-foreground">
-                      <Camera className="h-8 w-8 opacity-20 mb-2" />
+                    <div className="flex flex-col items-center justify-center py-8 sm:py-12 border-2 border-dashed border-border rounded-2xl text-muted-foreground">
+                      <Camera className="h-7 w-7 sm:h-8 sm:w-8 opacity-20 mb-2" />
                       <p className="text-[10px] font-bold uppercase">No photos uploaded</p>
                     </div>
                   )}
@@ -278,27 +288,27 @@ const CanteenOwnerReports = () => {
               </div>
 
               {/* Response Timeline */}
-              <div className="space-y-6 pb-20">
-                <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground border-b border-border pb-4 flex items-center gap-2">
+              <div className="space-y-4 sm:space-y-6 pb-16 sm:pb-20">
+                <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground border-b border-border pb-3 sm:pb-4 flex items-center gap-2">
                   <MessageSquare className="h-4 w-4" /> Communication Timeline
                 </h4>
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {responses.map((resp, i) => (
                     <div key={i} className={`flex ${resp.senderRole === 'canteen_owner' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[80%] rounded-2xl px-5 py-3 shadow-sm ${
+                      <div className={`max-w-[90%] sm:max-w-[80%] rounded-2xl px-4 sm:px-5 py-2.5 sm:py-3 shadow-sm ${
                         resp.senderRole === 'canteen_owner' 
                           ? 'bg-primary text-primary-foreground rounded-br-none'
                           : resp.senderRole === 'super_admin' || resp.senderRole === 'org_admin'
                             ? 'bg-primary/20 border border-primary/20 rounded-bl-none text-white'
                             : 'bg-muted border border-border rounded-bl-none text-white'
                       }`}>
-                        <div className="flex justify-between items-center gap-8 mb-1">
+                        <div className="flex justify-between items-center gap-4 sm:gap-8 mb-1">
                           <span className="text-[9px] font-black uppercase tracking-tighter opacity-70">
                             {resp.senderRole.replace('_', ' ')}
                           </span>
                           <span className="text-[9px] opacity-70">{new Date(resp.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                         </div>
-                        <p className="text-sm leading-relaxed">{resp.message}</p>
+                        <p className="text-xs sm:text-sm leading-relaxed break-words">{resp.message}</p>
                       </div>
                     </div>
                   ))}
@@ -308,27 +318,27 @@ const CanteenOwnerReports = () => {
           </div>
 
           {/* Response Input */}
-          <div className="p-6 border-t border-border bg-card/90 backdrop-blur-md">
-            <form onSubmit={handleAddResponse} className="max-w-3xl mx-auto flex gap-3">
+          <div className="p-3 sm:p-6 border-t border-border bg-card/90 backdrop-blur-md">
+            <form onSubmit={handleAddResponse} className="max-w-3xl mx-auto flex gap-2 sm:gap-3">
               <input
                 type="text"
                 value={newResponse}
                 onChange={e => setNewResponse(e.target.value)}
                 placeholder="Type official reply to Org/Admin..."
-                className="flex-1 rounded-2xl border border-border bg-background px-6 py-4 text-sm text-white focus:ring-2 focus:ring-primary/20 outline-none transition-all shadow-inner"
+                className="flex-1 min-w-0 rounded-xl sm:rounded-2xl border border-border bg-background px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-white focus:ring-2 focus:ring-primary/20 outline-none transition-all shadow-inner"
               />
               <button
                 type="submit"
                 disabled={sendingResponse || !newResponse.trim()}
-                className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 disabled:opacity-50"
+                className="flex h-11 w-11 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 disabled:opacity-50"
               >
-                {sendingResponse ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
+                {sendingResponse ? <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" /> : <Send className="h-4 w-4 sm:h-5 sm:w-5" />}
               </button>
             </form>
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center p-8 bg-card/20 text-center">
+        <div className="hidden md:flex md:flex-1 flex-col items-center justify-center p-8 bg-card/20 text-center">
           <div className="h-24 w-24 rounded-full bg-primary/5 flex items-center justify-center mb-6">
             <AlertTriangle className="h-12 w-12 text-primary/20" />
           </div>
