@@ -56,6 +56,8 @@ import CanteenOwnerMessages from "./pages/canteen-owner/CanteenOwnerMessages";
 import CanteenOwnerReports from "./pages/canteen-owner/CanteenOwnerReports";
 import CanteenOwnerWarnings from "./pages/canteen-owner/CanteenOwnerWarnings";
 
+import BackButtonHandler from "./components/BackButtonHandler";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -64,6 +66,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <BackButtonHandler />
         <Routes>
           {/* Public */}
           <Route path="/" element={<Index />} />
